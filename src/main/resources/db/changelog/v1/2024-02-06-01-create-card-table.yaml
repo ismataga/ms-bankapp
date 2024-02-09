@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-06-01-01
+      author: ingress
+      changes:
+        - createTable:
+            tableName: cards
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: card_name
+                  type: VARCHAR
+              - column:
+                  name: card_number
+                  type: VARCHAR
+              - column:
+                  name: balance
+                  type: NUMERIC
+              - column:
+                  name: stringValue
+                  type: VARCHAR(100)
+

@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-06-02-02
+      author: ingress
+      changes:
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: stringValue
+                  value: "cvv"
+
