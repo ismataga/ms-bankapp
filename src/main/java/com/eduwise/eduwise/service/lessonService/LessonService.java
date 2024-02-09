@@ -10,8 +10,11 @@ import com.eduwise.eduwise.exception.AppException;
 import com.eduwise.eduwise.mapper.admin.LessonMapper;
 import com.eduwise.eduwise.model.adminDto.requests.LessonRequest;
 import com.eduwise.eduwise.model.adminDto.responses.LessonResponse;
+import com.eduwise.eduwise.model.enums.LessonType;
 import com.eduwise.eduwise.repository.lessonRepository.LessonRepository;
 import com.eduwise.eduwise.repository.lessonRepository.SectionRepository;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.transaction.Transactional;
 import java.time.Duration;
 import java.util.List;
@@ -102,12 +105,36 @@ public class LessonService {
             lessonEntity.setTitle(lessonRequest.getTitle());
         }
 
+        if (Objects.nonNull(lessonRequest.getLastPlaceStay())) {
+            lessonEntity.setLastPlaceStay(lessonRequest.getLastPlaceStay());
+        }
+        if (Objects.nonNull(lessonRequest.getDescription())) {
+            lessonEntity.setDescription(lessonRequest.getDescription());
+        }
+        if (Objects.nonNull(lessonRequest.getDuration())) {
+            lessonEntity.setDuration(lessonRequest.getDuration());
+        }
+        if (Objects.nonNull(lessonRequest.getLessonType())) {
+            lessonEntity.setLessonType(lessonRequest.getLessonType());
+        }
         if (Objects.nonNull(lessonRequest.getVideoUrl())) {
             lessonEntity.setVideoUrl(lessonRequest.getVideoUrl());
         }
 
         log.info("updateLessonById().end " + id);
     }
+
+    private Integer id;
+    private String title;
+    private String videoUrl;
+    private String lastPlaceStay;
+    private String description;
+    private Duration duration;
+    private Boolean isCompleted;
+    private LessonType lessonType;
+    @ManyToOne
+    @JoinColumn(name = "section_id")
+    private SectionEntity section;
 
     public void deleteLessonById(Integer id) {
         log.info("deleteLessonById().start " + id);

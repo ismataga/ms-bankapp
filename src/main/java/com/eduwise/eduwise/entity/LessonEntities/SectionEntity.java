@@ -30,6 +30,7 @@ public class SectionEntity {
     private Integer sectionId;
     private String name;
     private Long duration;
+    private Integer articleCount;
     @ManyToOne
     @JoinColumn(name = "course_id")
     private CourseEntity course;

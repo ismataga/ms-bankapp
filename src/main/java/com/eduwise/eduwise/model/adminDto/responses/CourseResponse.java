@@ -2,6 +2,8 @@ package com.eduwise.eduwise.model.adminDto.responses;
 
 import com.eduwise.eduwise.configration.DurationDeserializer;
 import com.eduwise.eduwise.configration.DurationSerializer;
+import com.eduwise.eduwise.entity.LessonEntities.RatingEntity;
+import com.eduwise.eduwise.model.adminDto.RatingStatistic;
 import com.eduwise.eduwise.model.adminDto.requests.LessonRequest;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -39,10 +41,11 @@ public class CourseResponse {
     private String instructor;
     private Integer quizCount;
     private Integer articleCount;
-    private String url;
     private BigInteger monthlyPrice;
     private BigInteger quarterlyPrice;
     private BigInteger annuallyPrice;
     private BigInteger semiAnnuallyPrice;
     private List<SectionResponse> sections;
+    private RatingStatistic ratings;
+    private List<RatingResponse> ratingEntities;
 }

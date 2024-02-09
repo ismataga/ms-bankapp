@@ -13,7 +13,7 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface LessonMapper {
-    @Mapping(source = "sectionId", target = "section")
+//    @Mapping(source = "sectionId", target = "section")
 //    @Mapping(target = "duration", source = "duration", qualifiedByName = "toMinutes")
     LessonEntity requestToEntity(LessonRequest lessonRequest);
 

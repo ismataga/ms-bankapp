@@ -17,6 +17,6 @@ import lombok.ToString;
 public class BlogRequest {
     private String title;
     private String description;
-    private Instant duration;
-    private byte[] image;
+    private String url;
+
 }

@@ -34,7 +34,6 @@ public class CourseController {
     private final CourseService courseService;
     private final RatingService ratingService;
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void addCourse(@RequestBody CourseRequest courseRequest) {
@@ -81,7 +80,7 @@ public class CourseController {
     }
 
     @PostMapping("/rate")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public RatingStatistic rate(@RequestHeader("user_id") Long userId,
                                 @RequestBody @Valid RatingRequest ratingRequest) {
         return ratingService.rate(userId, ratingRequest);

@@ -1,14 +1,8 @@
 package com.eduwise.eduwise.controller.admin;
 
-import static com.eduwise.eduwise.model.enums.ExceptionConstants.BLOG_NOT_FOUND;
-
-import com.eduwise.eduwise.exception.AppException;
 import com.eduwise.eduwise.model.adminDto.requests.ArticleRequest;
-import com.eduwise.eduwise.model.adminDto.requests.BlogRequest;
 import com.eduwise.eduwise.model.adminDto.responses.ArticleResponse;
-import com.eduwise.eduwise.model.adminDto.responses.BlogResponse;
 import com.eduwise.eduwise.service.lessonService.ArticleService;
-import com.eduwise.eduwise.service.lessonService.BlogService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,10 +29,9 @@ public class ArticleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void addArticle(@RequestBody ArticleRequest articleRequest) {
+    public ArticleResponse addArticle(@RequestHeader("section_id") Integer sectionId, @RequestBody ArticleRequest articleRequest) {
         log.info("addArticle().start" + articleRequest);
-        articleService.addArticle(articleRequest);
-        log.info("addArticle().end");
+        return articleService.addArticle(articleRequest, sectionId);
     }
 
 

@@ -26,10 +26,8 @@ public class BlogEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "blog_id")
     private Integer id;
-    private Integer plus;
     private String title;
-    private Instant duration;
     private String description;
-    @Lob
-    private byte[] image;
+    private String url;
+
 }

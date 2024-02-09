@@ -17,6 +17,4 @@ import lombok.ToString;
 public class BlogResponse {
     private String title;
     private String description;
-    private Instant duration;
-    private byte[] image;
 }

@@ -29,6 +29,6 @@ public class LessonRequest {
     private Duration duration;
     private Boolean isCompleted;
     private LessonType lessonType;
-    private Integer sectionId;
+
 }
 

@@ -20,6 +20,6 @@ public class SectionResponse {
     //    @JsonSerialize(using = DurationSerializer.class)
 //    @JsonDeserialize(using = DurationDeserializer.class)
     private Long duration;
-    //    private Integer courseId;
+    private Integer articleCount;
     private List<LessonResponse> lessons;
 }

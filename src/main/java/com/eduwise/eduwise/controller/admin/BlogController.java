@@ -39,24 +39,6 @@ public class BlogController {
         log.info("getBlog().end");
     }
 
-    @PostMapping("/{add}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addBlogs(@RequestParam Integer a) {
-        log.info("addBlogs().start " + a);
-
-        if (!isDivisorOf100(a)) {
-            log.error("Invalid value for 'a'. Must be a divisor of 100.");
-            throw new AppException(a, BLOG_NOT_FOUND);
-        }
-
-        blogService.addBlogs(a);
-        log.info("addBlogs().end");
-    }
-
-    private boolean isDivisorOf100(int value) {
-        return (value != 0) && (value % 100 == 0);
-    }
-
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public BlogResponse getBlogById(@PathVariable Integer id) {

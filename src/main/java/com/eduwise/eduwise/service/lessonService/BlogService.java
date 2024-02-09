@@ -30,13 +30,6 @@ public class BlogService {
         blogRepository.save(blogEntity);
         log.info("addBLog ().start");
     }
-    public void addBlogs(Integer a) {
-        log.info("addBLog().start"+a);
-        BlogEntity blogEntity = new BlogEntity();
-        blogEntity.setPlus(a);
-        blogRepository.save(blogEntity);
-        log.info("addBLog ().start");
-    }
 
 
     public BlogResponse getBlogById(Integer id) {
@@ -66,10 +59,6 @@ public class BlogService {
 
         if (Objects.nonNull(blogRequest.getDescription())) {
             blogEntity.setDescription(blogRequest.getDescription());
-        }
-
-        if (Objects.nonNull(blogRequest.getImage())) {
-            blogEntity.setImage(blogRequest.getImage());
         }
 
         log.info("updateBlogById().end " + id);

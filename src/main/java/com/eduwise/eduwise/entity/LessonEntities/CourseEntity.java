@@ -50,6 +50,6 @@ public class CourseEntity {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<SectionEntity> sections;
     @OneToMany(mappedBy = "courseId", cascade = CascadeType.ALL)
-    private List<RatingEntity> ratings;
+    private List<RatingEntity> ratingEntities;
 
 }

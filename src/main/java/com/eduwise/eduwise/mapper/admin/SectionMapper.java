@@ -13,7 +13,7 @@ public interface SectionMapper {
 //    @Mapping(target = "duration", source = "duration", qualifiedByName = "toMinutes")
     SectionEntity sectionRequestToSectionEntity(SectionRequest sectionRequest);
 
-    @Mapping(source = "lessons", target = "lessons", ignore = true)
+    @Mapping(source = "lessons", target = "lessons")
 //    @Mapping(target = "duration", source = "duration", qualifiedByName = "fromMinutes")
     SectionResponse sectionEntityToSectionResponse(SectionEntity sectionEntity);
 

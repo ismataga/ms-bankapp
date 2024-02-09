@@ -18,23 +18,24 @@ import org.springframework.stereotype.Service;
 public class RatingService {
     private final RatingRepository ratingRepository;
     private final RatingMapper ratingMapper;
+
+
     public List<RatingEntity> getWaitingReviews(Long courseId) {
-        return ratingRepository.findByCourseIdAndIsWaiting(courseId, true);
+        return ratingRepository.findByCourseIdAndIsWaiting(courseId, false);
     }
 
     public void approveReview(Long reviewId) {
         RatingEntity review = ratingRepository.findById(reviewId)
                 .orElseThrow(() -> new AppException(reviewId, RATING_NOT_FOUND));
 
-        review.setWaiting(false);
+        review.setWaiting(true);
         ratingRepository.save(review);
     }
     public RatingStatistic rate(Long userId, RatingRequest ratingRequest) {
         var rating = ratingMapper.toRatingEntity(userId, ratingRequest);
 
         ratingRepository.save(rating);
-        RatingStatistic ratingStatistic = getRateStatistic(rating.getCourseId());
-        return ratingStatistic;
+        return getRateStatistic(rating.getCourseId());
     }
 
     private RatingStatistic getRateStatistic(Long courseId) {
@@ -42,5 +43,6 @@ public class RatingService {
         return ratingRepository.getRatingStatistic(courseId)
                 .orElseThrow(() -> new AppException(courseId, RATING_NOT_FOUND));
     }
+
 
 }

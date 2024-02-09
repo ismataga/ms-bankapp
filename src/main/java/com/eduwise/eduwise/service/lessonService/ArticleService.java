@@ -1,16 +1,18 @@
 package com.eduwise.eduwise.service.lessonService;
 
 import static com.eduwise.eduwise.model.enums.ExceptionConstants.ARTICLE_NOT_FOUND;
-import static com.eduwise.eduwise.model.enums.ExceptionConstants.BLOG_NOT_FOUND;
+import static com.eduwise.eduwise.model.enums.ExceptionConstants.SECTION_NOT_FOUND;
 
 import com.eduwise.eduwise.entity.LessonEntities.ArticleEntity;
-import com.eduwise.eduwise.entity.LessonEntities.BlogEntity;
+import com.eduwise.eduwise.entity.LessonEntities.CourseEntity;
+import com.eduwise.eduwise.entity.LessonEntities.SectionEntity;
 import com.eduwise.eduwise.exception.AppException;
 import com.eduwise.eduwise.mapper.admin.ArticleMapper;
 import com.eduwise.eduwise.model.adminDto.requests.ArticleRequest;
 import com.eduwise.eduwise.model.adminDto.responses.ArticleResponse;
-import com.eduwise.eduwise.model.adminDto.responses.BlogResponse;
 import com.eduwise.eduwise.repository.lessonRepository.ArticleRepository;
+import com.eduwise.eduwise.repository.lessonRepository.CourseRepository;
+import com.eduwise.eduwise.repository.lessonRepository.SectionRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
@@ -24,14 +26,50 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final SectionRepository sectionRepository;
+    private final CourseRepository courseRepository;
     private final ArticleMapper articleMapper;
 
-    public void addArticle(ArticleRequest articleRequest) {
-        log.info("addArticle().start" + articleRequest);
+    public ArticleResponse addArticle(ArticleRequest articleRequest, Integer sectionId) {
+        // Retrieve the section
+        SectionEntity section = sectionRepository.findById(sectionId)
+                .orElseThrow(() -> new AppException(sectionId, SECTION_NOT_FOUND));
+
+        // Set the section for the new lesson
         ArticleEntity articleEntity = articleMapper.requestToEntity(articleRequest);
-        articleRepository.save(articleEntity);
-        log.info("addArticle ().end");
+        articleEntity.setSection(section.getSectionId());
+
+        // Save the new lesson
+        ArticleEntity savedLesson = articleRepository.save(articleEntity);
+
+        // Update the section duration
+        updateSectionDuration(section);
+
+        return articleMapper.entityToResponse(savedLesson);
     }
+
+
+    private void updateSectionDuration(SectionEntity section) {
+
+        if (section.getArticleCount() == null) {
+            section.setArticleCount(1);
+            sectionRepository.save(section);
+        } else {
+            section.setArticleCount(section.getArticleCount() + 1);
+            sectionRepository.save(section);
+        }
+
+        CourseEntity course = section.getCourse();
+        if (course.getArticleCount() == null) {
+            course.setArticleCount(1);
+            courseRepository.save(course);
+        } else {
+            course.setArticleCount(course.getArticleCount() + 1);
+            courseRepository.save(course);
+        }
+
+    }
+
 
     public ArticleResponse getArticleById(Integer id) {
         log.info("getArticleById().start " + id);
@@ -63,9 +101,6 @@ public class ArticleService {
             articleEntity.setDescription(articleRequest.description());
         }
 
-        if (Objects.nonNull(articleRequest.section())) {
-            articleEntity.setSection(articleRequest.section());
-        }
 
         log.info("updateArticleById().end " + id);
     }

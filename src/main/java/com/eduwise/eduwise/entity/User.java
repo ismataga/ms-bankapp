@@ -1,12 +1,17 @@
 package com.eduwise.eduwise.entity;
 
+import com.eduwise.eduwise.entity.LessonEntities.RatingEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
@@ -49,6 +54,10 @@ public class User implements UserDetails {
     //    @Pattern(regexp = "[0-9]{3}[0-9]{3}[0-9]{4}")
     private Integer phoneNumber;
 
+    @OneToOne
+    @JoinColumn(name = "user_id") // specify the foreign key column
+    private RatingEntity rating;
+
 
 //    @ManyToMany
 //    @JoinTable(
@@ -88,5 +97,7 @@ public class User implements UserDetails {
     private String otpCode;
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime tokenCreationDate;
+
+
 
 }
