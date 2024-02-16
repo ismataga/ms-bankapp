@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-16-05
+      author: ingress
+      changes:
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: amount
+                  type: double
+              - column:
+                  name: date
+                  type: date
+              - column:
+                  name: type
+                  type: varchar(255)
+              - column:
+                  name: from_account_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: to_account_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: 2024-02-16-05-01
+      author: ingress
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: from_account_id
+            constraintName: fk_transactions_from_account
+            referencedTableName: accounts
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: to_account_id
+            constraintName: fk_transactions_to_account
+            referencedTableName: accounts
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
+

@@ -1,12 +1,17 @@
 databaseChangeLog:
   - changeSet:
-      id: 2024-02-06-02-02
+      id: 2024-02-06-02-01
       author: ingress
       changes:
         - insert:
             tableName: cards
             columns:
               - column:
-                  name: stringValue
-                  value: "cvv"
-
+                  name: card_name
+                  value: "iban1856465"
+              - column:
+                  name: card_number
+                  value: "iban1856465"
+              - column:
+                  name: balance
+                  value: 123.08

@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-16-03
+      author: ingress
+      changes:
+        - createTable:
+            tableName: cards
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: card_number
+                  type: VARCHAR
+              - column:
+                  name: card_type
+                  type: VARCHAR
+              - column:
+                  name: expiration_time
+                  type: VARCHAR
+              - column:
+                  name: account_id
+                  type: bigint
+
+

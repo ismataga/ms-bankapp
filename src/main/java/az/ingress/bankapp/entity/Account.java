@@ -8,35 +8,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Data
-@Table(name = "cards")
-public class Card {
+@Table(name = "accounts")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cardNumber;
-    private String cardType;
-    private String expirationTime;
-
+    private String accountNumber;
+    private double balance;
 
     @ManyToOne
-    private Account account;
+    private User user;
 
-//    @OneToMany(mappedBy = "card",cascade = CascadeType.ALL)
-//    private List<CardBenefit> cardBenefits;
-
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Card> cards;
 
 }

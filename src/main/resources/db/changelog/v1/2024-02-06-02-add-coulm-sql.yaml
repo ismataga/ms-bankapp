@@ -1,9 +1,9 @@
 databaseChangeLog:
   - changeSet:
-      id: 2024-02-06-01-01
+      id: 2024-02-16-03
       author: ingress
       changes:
-        - createTable:
+        - addColumn:
             tableName: cards
             columns:
               - column:
@@ -14,37 +14,27 @@ databaseChangeLog:
                     nullable: false
                   autoIncrement: true
               - column:
-                  name: card_name
-                  type: VARCHAR
-              - column:
                   name: card_number
                   type: VARCHAR
               - column:
-                  name: balance
-                  type: NUMERIC
+                  name: card_type
+                  type: VARCHAR
               - column:
-                  name: card_benefits
-                  type: BIGINT
+                  name: expiration_time
+                  type: VARCHAR
+              - column:
+                  name: account_id
+                  type: bigint
 
   - changeSet:
-      id: 2024-02-06-01-02
-      author: ingress
-      changes:
-        - renameColumn:
-            columnDataType: VARCHAR
-            newColumnName: contract_number
-            oldColumnName: card_number
-            tableName: cards
-  - changeSet:
-      id: 2024-02-14-01
+      id: 2024-02-16-03-01
       author: ingress
       changes:
         - addForeignKeyConstraint:
             baseTableName: cards
-            baseColumnNames: card_benefits
-            constraintName: fk_cards_card_benefits
-            referencedTableName: card_benefits
+            baseColumnNames: account
+            constraintName: fk_card_account
+            referencedTableName: accounts
             referencedColumnNames: id
             onDelete: CASCADE
             onUpdate: RESTRICT
-

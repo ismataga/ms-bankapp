@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-16-01
+      author: ingress
+      changes:
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: address
+                  type: VARCHAR
+              - column:
+                  name: city
+                  type: VARCHAR
+              - column:
+                  name: postal_code
+                  type: VARCHAR
+              - column:
+                  name: user_id
+                  type: bigint
+
+
+  - changeSet:
+      id: 2024-02-16-02-01
+      author: ingress
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: address
+            baseColumnNames: user_id
+            constraintName: fk_address_user
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+
+

@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-16-01
+      author: ingress
+      changes:
+        - createTable:
+            tableName: accounts
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: account_number
+                  type: VARCHAR
+              - column:
+                  name: balance
+                  type: DOUBLE
+              - column:
+                  name: user_id
+                  type: bigint
+
+
+  - changeSet:
+      id: 2024-02-16-01-01
+      author: ingress
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: cards
+            baseColumnNames: account_id
+            constraintName: fk_cards_account
+            referencedTableName: accounts
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+
+
+
+

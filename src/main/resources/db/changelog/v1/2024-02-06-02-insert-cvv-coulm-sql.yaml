@@ -1,0 +1,68 @@
+#databaseChangeLog:
+#  - changeSet:
+#      id: 2024-02-06-02-02
+#      author: ingress
+#      changes:
+#        - sql: insert into cards (card_name,balance) values ('iban622165',123.08);
+#  - changeSet:
+#      id: 2024-02-06-02-03
+#      author: ingress
+#      runOnChange: true
+#      changes:
+#        - sql: insert into cards (card_name,balance) values ('iban622165',123.08);
+#
+#
+#
+
+
+
+
+
+
+
+
+
+
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: your_name
+      changes:
+        - createTable:
+            tableName: account
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: accountNumber
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: foreign_key_constraint_name
+                  type: bigint
+                  constraints:
+                    nullable: true
+            foreignKeyConstraints:
+              - baseTableName: account
+                baseColumnNames: user_id
+                constraintName: foreign_key_constraint_name
+                referencedTableName: user
+                referencedColumnNames: id
+                onDelete: CASCADE
+                onUpdate: CASCADE

@@ -1,15 +1,14 @@
 package az.ingress.bankapp.entity;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,22 +20,19 @@ import lombok.ToString;
 @Builder
 @Entity
 @Data
-@Table(name = "cards")
-public class Card {
+@Table(name = "address")
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cardNumber;
-    private String cardType;
-    private String expirationTime;
+    private String address;
+    private String city;
+    private String postalCode;
 
-
-    @ManyToOne
-    private Account account;
-
-//    @OneToMany(mappedBy = "card",cascade = CascadeType.ALL)
-//    private List<CardBenefit> cardBenefits;
-
-
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    @JsonIgnore
+    private User user;
 }
