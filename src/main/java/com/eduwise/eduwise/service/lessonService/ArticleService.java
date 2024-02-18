@@ -1,6 +1,7 @@
 package com.eduwise.eduwise.service.lessonService;
 
 import static com.eduwise.eduwise.model.enums.ExceptionConstants.ARTICLE_NOT_FOUND;
+import static com.eduwise.eduwise.model.enums.ExceptionConstants.COURSE_NOT_FOUND;
 import static com.eduwise.eduwise.model.enums.ExceptionConstants.SECTION_NOT_FOUND;
 
 import com.eduwise.eduwise.entity.LessonEntities.ArticleEntity;
@@ -37,7 +38,7 @@ public class ArticleService {
 
         // Set the section for the new lesson
         ArticleEntity articleEntity = articleMapper.requestToEntity(articleRequest);
-        articleEntity.setSection(section.getSectionId());
+        articleEntity.setSection(section.getId());
 
         // Save the new lesson
         ArticleEntity savedLesson = articleRepository.save(articleEntity);
@@ -58,14 +59,17 @@ public class ArticleService {
             section.setArticleCount(section.getArticleCount() + 1);
             sectionRepository.save(section);
         }
+        Long courseId = section.getCourseId();
+        CourseEntity courseEntity = courseRepository.findById(Math.toIntExact(courseId))
+                .orElseThrow(() -> new AppException(courseId, COURSE_NOT_FOUND));
 
-        CourseEntity course = section.getCourse();
-        if (course.getArticleCount() == null) {
-            course.setArticleCount(1);
-            courseRepository.save(course);
+
+        if (courseEntity.getArticleCount() == null) {
+            courseEntity.setArticleCount(1);
+            courseRepository.save(courseEntity);
         } else {
-            course.setArticleCount(course.getArticleCount() + 1);
-            courseRepository.save(course);
+            courseEntity.setArticleCount(courseEntity.getArticleCount() + 1);
+            courseRepository.save(courseEntity);
         }
 
     }

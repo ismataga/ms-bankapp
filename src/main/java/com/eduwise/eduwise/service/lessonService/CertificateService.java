@@ -1,15 +1,17 @@
 package com.eduwise.eduwise.service.lessonService;
 
-import static com.eduwise.eduwise.model.enums.ExceptionConstants.BLOG_NOT_FOUND;
 import static com.eduwise.eduwise.model.enums.ExceptionConstants.CERTIFICATE_NOT_FOUND;
 
 import com.eduwise.eduwise.entity.LessonEntities.CertificateEntity;
+import com.eduwise.eduwise.entity.LessonEntities.CourseEntity;
+import com.eduwise.eduwise.entity.User;
 import com.eduwise.eduwise.exception.AppException;
 import com.eduwise.eduwise.mapper.admin.CertificateMapper;
 import com.eduwise.eduwise.model.adminDto.requests.CertificateRequest;
 import com.eduwise.eduwise.model.adminDto.responses.CertificateResponse;
 import com.eduwise.eduwise.repository.lessonRepository.CertificateRepository;
 import jakarta.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,17 @@ public class CertificateService {
     private final CertificateMapper certificateMapper;
     private final CertificateRepository certificateRepository;
 
+    public void generateCertificate(User user, Integer courseid) {
+        CourseEntity courseEntity = new CourseEntity();
+        CertificateEntity certificate = new CertificateEntity();
+        certificate.setUserId(user.getId());
+        certificate.setCourseId(courseEntity.getId());
+        certificate.setCompletionDate(new Date());
+        certificateRepository.save(certificate);
+
+        // Logic to generate and save the certificate
+
+    }
     public void addCertificate(CertificateRequest certificateRequest) {
         log.info("addCertificate().start" + certificateRequest);
         CertificateEntity certificateEntity = certificateMapper.requestToEntity(certificateRequest);
@@ -52,9 +65,7 @@ public class CertificateService {
         log.info("updateCertificateById().start " + id);
         CertificateEntity certificateEntity = certificateRepository.
                 findById(id).orElseThrow(() ->new AppException(id, CERTIFICATE_NOT_FOUND));
-        if (Objects.nonNull(certificateRequest.getCourseId())) {
-            certificateEntity.setCertificateId(certificateRequest.getCertificateId());
-        }
+
 
         log.info("updateCertificateById().end " + id);
     }

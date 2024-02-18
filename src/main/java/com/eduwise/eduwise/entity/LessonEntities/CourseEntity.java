@@ -6,7 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigInteger;
@@ -31,25 +33,28 @@ public class CourseEntity {
     private Long id;
     private String name;
     private String description;
-    @Lob
-    private byte[] coverImage;
+    private boolean bestSeller;
+    private boolean isBuyed;
+    private String coverImageUrl;
     private Long duration;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateAt;
     private Integer studentCount;
-    private String instructor;
+    private String instructorName;
+    private String instructorPhoto;
     private Integer quizCount;
     private Integer articleCount;
-    private String url;
     private BigInteger monthlyPrice;
     private BigInteger quarterlyPrice;
     private BigInteger annuallyPrice;
     private BigInteger semiAnnuallyPrice;
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private BigInteger discount;
+    @OneToMany(mappedBy = "courseId")
     private List<SectionEntity> sections;
-    @OneToMany(mappedBy = "courseId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id")
     private List<RatingEntity> ratingEntities;
-
+    @ManyToOne
+    private InstructorEntity instructor;
 }

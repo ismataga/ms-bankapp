@@ -1,10 +1,12 @@
 package com.eduwise.eduwise.controller.admin;
 
 import com.eduwise.eduwise.entity.LessonEntities.RatingEntity;
+import com.eduwise.eduwise.entity.User;
 import com.eduwise.eduwise.model.adminDto.RatingStatistic;
 import com.eduwise.eduwise.model.adminDto.requests.CourseRequest;
 import com.eduwise.eduwise.model.adminDto.requests.RatingRequest;
 import com.eduwise.eduwise.model.adminDto.responses.CourseResponse;
+import com.eduwise.eduwise.service.lessonService.CertificateService;
 import com.eduwise.eduwise.service.lessonService.CourseService;
 import com.eduwise.eduwise.service.lessonService.RatingService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -33,6 +35,7 @@ public class CourseController {
 
     private final CourseService courseService;
     private final RatingService ratingService;
+    private final CertificateService certificateService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -66,6 +69,8 @@ public class CourseController {
         courseService.deleteCourseById(id);
     }
 
+
+    //Rating
     @GetMapping("/{courseId}/ratings/waiting")
     @ResponseStatus(HttpStatus.OK)
 
@@ -84,5 +89,14 @@ public class CourseController {
     public RatingStatistic rate(@RequestHeader("user_id") Long userId,
                                 @RequestBody @Valid RatingRequest ratingRequest) {
         return ratingService.rate(userId, ratingRequest);
+    }
+
+    //Certificates
+
+    @PostMapping("/{courseId}/complete")
+    public void completeCourse(@PathVariable Integer courseId, @RequestBody User user) {
+        // Logic to mark course as completed for the user
+        certificateService.generateCertificate(user, courseId);
+
     }
 }

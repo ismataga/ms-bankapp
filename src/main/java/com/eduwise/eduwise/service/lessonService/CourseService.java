@@ -62,20 +62,6 @@ public class CourseService {
             courseEntity.setDescription(courseRequest.getDescription());
         }
 
-        if (Objects.nonNull(courseRequest.getCoverImage())) {
-            courseEntity.setCoverImage(courseRequest.getCoverImage());
-        }
-
-
-        if (Objects.nonNull(courseRequest.getInstructor())) {
-            courseEntity.setInstructor(courseRequest.getInstructor());
-        }
-
-
-        if (Objects.nonNull(courseRequest.getUrl())) {
-            courseEntity.setUrl(courseRequest.getUrl());
-        }
-
         if (Objects.nonNull(courseRequest.getMonthlyPrice())) {
             courseEntity.setMonthlyPrice(courseRequest.getMonthlyPrice());
         }

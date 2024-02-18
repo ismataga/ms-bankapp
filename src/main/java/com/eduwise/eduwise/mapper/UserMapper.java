@@ -16,7 +16,6 @@ public abstract class UserMapper{
     @Autowired
     protected PasswordEncoder encoder;
     @Mapping(target = "name", ignore = true)
-    @Mapping(target = "email", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "enabled", constant = "false")
     @Mapping(target = "accountNonExpired", constant = "true")

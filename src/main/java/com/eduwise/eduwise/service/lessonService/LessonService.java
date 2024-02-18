@@ -1,5 +1,6 @@
 package com.eduwise.eduwise.service.lessonService;
 
+import static com.eduwise.eduwise.model.enums.ExceptionConstants.COURSE_NOT_FOUND;
 import static com.eduwise.eduwise.model.enums.ExceptionConstants.LESSON_NOT_FOUND;
 import static com.eduwise.eduwise.model.enums.ExceptionConstants.SECTION_NOT_FOUND;
 
@@ -10,13 +11,10 @@ import com.eduwise.eduwise.exception.AppException;
 import com.eduwise.eduwise.mapper.admin.LessonMapper;
 import com.eduwise.eduwise.model.adminDto.requests.LessonRequest;
 import com.eduwise.eduwise.model.adminDto.responses.LessonResponse;
-import com.eduwise.eduwise.model.enums.LessonType;
+import com.eduwise.eduwise.repository.lessonRepository.CourseRepository;
 import com.eduwise.eduwise.repository.lessonRepository.LessonRepository;
 import com.eduwise.eduwise.repository.lessonRepository.SectionRepository;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.transaction.Transactional;
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -31,53 +29,48 @@ public class LessonService {
     private final LessonMapper lessonMapper;
     private final LessonRepository lessonRepository;
     private final SectionRepository sectionRepository;
+    private final CourseRepository courseRepository;
 
-    public void addLessons(LessonRequest lessonRequest) {
-        log.info("addLesson().start" + lessonRequest);
-        LessonEntity lessonEntity = lessonMapper.requestToEntity(lessonRequest);
-        lessonRepository.save(lessonEntity);
-        log.info("addLesson ().start");
-    }
+    public void addLesson(LessonRequest lessonRequest, Integer sectionId) {
+        log.info("addLessonById().start " + lessonRequest + sectionId);
 
-    public LessonEntity addLesson(LessonRequest lessonRequest, Integer sectionId) {
-        // Retrieve the section
         SectionEntity section = sectionRepository.findById(sectionId)
                 .orElseThrow(() -> new AppException(sectionId, SECTION_NOT_FOUND));
 
-        // Set the section for the new lesson
         LessonEntity lessonEntity = lessonMapper.requestToEntity(lessonRequest);
-        lessonEntity.setSection(section);
+        lessonEntity.setSectionId(sectionId);
 
-        // Save the new lesson
-        LessonEntity savedLesson = lessonRepository.save(lessonEntity);
+        lessonRepository.save(lessonEntity);
 
-        // Update the section duration
         updateSectionDuration(section);
 
-        // Save the updated section
-        sectionRepository.save(section);
+        log.info("addLessonById().end " + lessonRequest + sectionId);
 
-        return savedLesson;
     }
 
     private void updateSectionDuration(SectionEntity section) {
-        // Calculate the new duration by summing up the durations of all lessons in the section
+        log.info("updateSectionDuration().start " + section);
+
         Long newSectionDuration = section.getLessons().stream()
-                .mapToLong(lessonEntity -> lessonEntity.getDuration().toSeconds())
+                .mapToLong(LessonEntity::getDuration)
                 .sum();
 
         section.setDuration(newSectionDuration);
-
+        sectionRepository.save(section);
         // Retrieve the course
-        CourseEntity course = section.getCourse();
+        Long courseId = section.getCourseId();
+        CourseEntity courseEntity = courseRepository.findById(Math.toIntExact(courseId))
+                .orElseThrow(() -> new AppException(courseId, COURSE_NOT_FOUND));
 
         // Calculate the new course duration by summing up the durations of all sections in the course
-        Long newCourseDuration = course.getSections().stream()
+        Long newCourseDuration = courseEntity.getSections().stream()
                 .mapToLong(SectionEntity::getDuration)
                 .sum();
 
         // Update the course duration
-        course.setDuration(newCourseDuration);
+        courseEntity.setDuration(newCourseDuration);
+        courseRepository.save(courseEntity);
+        log.info("updateSectionDuration().end " + section);
     }
 
     public LessonResponse getLessonById(Integer id) {
@@ -105,40 +98,47 @@ public class LessonService {
             lessonEntity.setTitle(lessonRequest.getTitle());
         }
 
-        if (Objects.nonNull(lessonRequest.getLastPlaceStay())) {
-            lessonEntity.setLastPlaceStay(lessonRequest.getLastPlaceStay());
-        }
         if (Objects.nonNull(lessonRequest.getDescription())) {
             lessonEntity.setDescription(lessonRequest.getDescription());
         }
         if (Objects.nonNull(lessonRequest.getDuration())) {
             lessonEntity.setDuration(lessonRequest.getDuration());
+            SectionEntity section = sectionRepository.findById(lessonEntity.getSectionId())
+                    .orElseThrow(() -> new AppException(lessonEntity.getSectionId(), SECTION_NOT_FOUND));
+
+            Long newSectionDuration = section.getLessons().stream()
+                    .mapToLong(LessonEntity::getDuration)
+                    .sum();
+
+            section.setDuration(newSectionDuration);
+            sectionRepository.save(section);
+            // Retrieve the course
+            Long courseId = section.getCourseId();
+            CourseEntity courseEntity = courseRepository.findById(Math.toIntExact(courseId))
+                    .orElseThrow(() -> new AppException(courseId, COURSE_NOT_FOUND));
+
+            // Calculate the new course duration by summing up the durations of all sections in the course
+            Long newCourseDuration = courseEntity.getSections().stream()
+                    .mapToLong(SectionEntity::getDuration)
+                    .sum();
+
+            // Update the course duration
+            courseEntity.setDuration(newCourseDuration);
+            courseRepository.save(courseEntity);
         }
         if (Objects.nonNull(lessonRequest.getLessonType())) {
             lessonEntity.setLessonType(lessonRequest.getLessonType());
         }
-        if (Objects.nonNull(lessonRequest.getVideoUrl())) {
-            lessonEntity.setVideoUrl(lessonRequest.getVideoUrl());
+        if (Objects.nonNull(lessonRequest.getUrl())) {
+            lessonEntity.setUrl(lessonRequest.getUrl());
         }
 
         log.info("updateLessonById().end " + id);
     }
 
-    private Integer id;
-    private String title;
-    private String videoUrl;
-    private String lastPlaceStay;
-    private String description;
-    private Duration duration;
-    private Boolean isCompleted;
-    private LessonType lessonType;
-    @ManyToOne
-    @JoinColumn(name = "section_id")
-    private SectionEntity section;
-
     public void deleteLessonById(Integer id) {
         log.info("deleteLessonById().start " + id);
-        lessonRepository.findById(id).orElseThrow(() -> new RuntimeException("Lesson not found " + id));
+        lessonRepository.findById(id).orElseThrow(() -> new AppException(id, LESSON_NOT_FOUND));
         lessonRepository.deleteById(id);
         log.info("deleteLessonById().end " + id);
     }

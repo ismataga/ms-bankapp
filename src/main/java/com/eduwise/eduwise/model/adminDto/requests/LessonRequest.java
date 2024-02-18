@@ -21,14 +21,11 @@ import lombok.ToString;
 @NoArgsConstructor
 public class LessonRequest {
     private String title;
-    private String videoUrl;
-    private String lastPlaceStay;
+    private String url;
     private String description;
-    @JsonSerialize(using = DurationSerializer.class)
-    @JsonDeserialize(using = DurationDeserializer.class)
-    private Duration duration;
-    private Boolean isCompleted;
+//    @JsonSerialize(using = DurationSerializer.class)
+//    @JsonDeserialize(using = DurationDeserializer.class)
+    private Long duration;
     private LessonType lessonType;
-
 }
 

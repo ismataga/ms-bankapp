@@ -1,13 +1,14 @@
 package com.eduwise.eduwise.service.lessonService;
 
 import static com.eduwise.eduwise.model.enums.ExceptionConstants.RATING_NOT_FOUND;
+import static com.eduwise.eduwise.model.enums.ExceptionConstants.USER_NOT_FOUND;
 
-import com.eduwise.eduwise.entity.LessonEntities.CourseEntity;
 import com.eduwise.eduwise.entity.LessonEntities.RatingEntity;
 import com.eduwise.eduwise.exception.AppException;
 import com.eduwise.eduwise.mapper.admin.RatingMapper;
 import com.eduwise.eduwise.model.adminDto.RatingStatistic;
 import com.eduwise.eduwise.model.adminDto.requests.RatingRequest;
+import com.eduwise.eduwise.repository.UserRepository;
 import com.eduwise.eduwise.repository.lessonRepository.RatingRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RatingService {
     private final RatingRepository ratingRepository;
+    private final UserRepository userRepository;
     private final RatingMapper ratingMapper;
 
 
@@ -31,7 +33,11 @@ public class RatingService {
         review.setWaiting(true);
         ratingRepository.save(review);
     }
+
     public RatingStatistic rate(Long userId, RatingRequest ratingRequest) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(userId, USER_NOT_FOUND));
+
         var rating = ratingMapper.toRatingEntity(userId, ratingRequest);
 
         ratingRepository.save(rating);

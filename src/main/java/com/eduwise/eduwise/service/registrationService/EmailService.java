@@ -38,7 +38,7 @@ public class EmailService {
 
         user.getOtpCode();
 
-        sendEmail(user.getEmail(), user.getOtpCode());
+        sendEmail(user.getUsername(), user.getOtpCode());
 
     }
     private void sendEmail(String email, String otp) {

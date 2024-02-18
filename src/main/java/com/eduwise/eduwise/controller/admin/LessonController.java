@@ -54,5 +54,4 @@ public class LessonController {
         lessonService.deleteLessonById(id);
     }
 
-
 }

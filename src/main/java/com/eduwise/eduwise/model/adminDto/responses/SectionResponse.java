@@ -15,10 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SectionResponse {
-    private Integer sectionId;
     private String name;
-    //    @JsonSerialize(using = DurationSerializer.class)
-//    @JsonDeserialize(using = DurationDeserializer.class)
     private Long duration;
     private Integer articleCount;
     private List<LessonResponse> lessons;

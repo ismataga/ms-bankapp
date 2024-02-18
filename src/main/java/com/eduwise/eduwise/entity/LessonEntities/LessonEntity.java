@@ -31,13 +31,11 @@ public class LessonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
-    private String videoUrl;
+    private String url;
     private String lastPlaceStay;
     private String description;
-    private Duration duration;
+    private Long duration;
     private Boolean isCompleted;
     private LessonType lessonType;
-    @ManyToOne
-    @JoinColumn(name = "section_id")
-    private SectionEntity section;
+    private Integer sectionId;
 }

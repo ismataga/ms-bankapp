@@ -45,6 +45,7 @@ public enum ExceptionConstants {
     SECTION_NOT_FOUND("section not found with id: ", NOT_FOUND),
     DURATION_CAN_NOT_BE_CONVERTED("duration can not be converted: ", BAD_REQUEST),
     RATING_NOT_FOUND("rating not found with id: ",NOT_FOUND),
+    INSTRUCTOR_NOT_FOUND("Instructor not found with id: ",NOT_FOUND),
 
     //user-service
     USER_NOT_FOUND("user not found with username: ", NOT_FOUND),

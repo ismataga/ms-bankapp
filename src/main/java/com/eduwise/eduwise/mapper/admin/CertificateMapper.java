@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CertificateMapper {
-    @Mapping(source = "courseId", target = "courseEntity.id")
     CertificateEntity requestToEntity(CertificateRequest certificateRequest);
 
     CertificateResponse entityToBlogResponse(CertificateEntity certificateEntity);

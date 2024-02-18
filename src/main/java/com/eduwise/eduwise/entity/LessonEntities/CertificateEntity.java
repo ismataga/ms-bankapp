@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,8 @@ import lombok.ToString;
 public class CertificateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer certificateId;
-    @OneToOne
-    private CourseEntity courseEntity;
+    private Long certificateId;
+    private Long userId;
+    private Long courseId;
+    private Date completionDate;
 }

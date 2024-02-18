@@ -49,25 +49,24 @@ public class User implements UserDetails {
     private LocalDate birthdate;
     @Column(unique = true)
 //    @Pattern(regexp = "[0-9]{3}+[0-9]{3}+[0-9]{4}")
-    private String email;
+    private String username;
     private String password;
     //    @Pattern(regexp = "[0-9]{3}[0-9]{3}[0-9]{4}")
     private Integer phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "user_id") // specify the foreign key column
-    private RatingEntity rating;
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
+    private UUID uuid;
+    private int attemptCount;
+    private String otpCode;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime tokenCreationDate;
 
-
-//    @ManyToMany
-//    @JoinTable(
-//            schema = "delivery_div",
-//            name = "user_role",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-//    @ToString.Exclude
-//    private Set<Role> role;
+//    @OneToOne
+//    @JoinColumn(name = "rating_id") // specify the foreign key column
+//    private RatingEntity rating;
 
     private Boolean active;
 
@@ -85,19 +84,5 @@ public class User implements UserDetails {
                 .map(SimpleGrantedAuthority::new)
                 .toList();
     }
-
-    private String username;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
-    private UUID uuid;
-    private int attemptCount;
-
-    private String otpCode;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime tokenCreationDate;
-
-
 
 }
