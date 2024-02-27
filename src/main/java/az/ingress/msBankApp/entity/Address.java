@@ -1,4 +1,4 @@
-package az.ingress.bankapp.entity;
+package az.ingress.msBankApp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
@@ -9,17 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Data
+@EqualsAndHashCode
 @Table(name = "address")
 public class Address {
     @Id
@@ -34,5 +32,6 @@ public class Address {
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private User user;
 }

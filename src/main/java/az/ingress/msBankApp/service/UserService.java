@@ -1,7 +1,7 @@
-package az.ingress.bankapp.service;
+package az.ingress.msBankApp.service;
 
-import az.ingress.bankapp.entity.User;
-import az.ingress.bankapp.model.UserDto;
+import az.ingress.msBankApp.entity.User;
+import az.ingress.msBankApp.model.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

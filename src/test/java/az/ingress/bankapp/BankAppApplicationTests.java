@@ -1,10 +1,10 @@
-package az.ingress.bankapp;
+package az.ingress.msBankApp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BankAppApplicationTests {
+class msBankAppApplicationTests {
 
     @Test
     void contextLoads() {

@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-16-06
+      author: ingress
+      changes:
+        - createTable:
+            tableName: card_benefits
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: name
+                  type: VARCHAR
+              - column:
+                  name: description
+                  type: VARCHAR
+              - column:
+                  name: is_eligible_fast_order
+                  type: boolean
+              - column:
+                  name: card_id
+                  type: bigint
+
+
+  - changeSet:
+      id: 2024-02-16-06-02
+      author: ingress
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: card_benefits
+            baseColumnNames: card_id
+            constraintName: fk_card_id
+            referencedTableName: cards
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+
+
+
+

@@ -1,4 +1,4 @@
-package az.ingress.bankapp.model;
+package az.ingress.msBankApp.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

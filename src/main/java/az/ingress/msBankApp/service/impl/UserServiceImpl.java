@@ -1,9 +1,9 @@
-package az.ingress.bankapp.service.impl;
+package az.ingress.msBankApp.service.impl;
 
-import az.ingress.bankapp.entity.User;
-import az.ingress.bankapp.model.UserDto;
-import az.ingress.bankapp.repository.UserRepository;
-import az.ingress.bankapp.service.UserService;
+import az.ingress.msBankApp.entity.User;
+import az.ingress.msBankApp.model.UserDto;
+import az.ingress.msBankApp.repository.UserRepository;
+import az.ingress.msBankApp.service.UserService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

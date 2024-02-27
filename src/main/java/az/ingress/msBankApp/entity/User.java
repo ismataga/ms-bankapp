@@ -1,5 +1,6 @@
-package az.ingress.bankapp.entity;
+package az.ingress.msBankApp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,13 +8,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Builder
 @Entity
 @Data
@@ -29,6 +29,9 @@ public class User {
     private String password;
 
     @OneToOne(mappedBy = "user")
+//    @ToString.Exclude
+//    @JsonIgnore
+//    @EqualsAndHashCode.Exclude
     private Address address;
 
 }
