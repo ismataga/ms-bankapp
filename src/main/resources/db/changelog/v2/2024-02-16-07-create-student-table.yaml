@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2024-02-16-07
+      author: ingress
+      changes:
+        - createTable:
+            tableName: students
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: name
+                  type: VARCHAR
+              - column:
+                  name: surname
+                  type: VARCHAR
+              - column:
+                  name: age
+                  type: VARCHAR
+              - column:
+                  name: gender
+                  type: VARCHAR
+
+
+
+
+
+
