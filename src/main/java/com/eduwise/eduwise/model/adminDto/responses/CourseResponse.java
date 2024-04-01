@@ -30,7 +30,6 @@ public class CourseResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateAt;
     private Integer studentCount;
-    private List<User> instructors;
     private Integer quizCount;
     private Integer articleCount;
     private BigInteger monthlyPrice;
@@ -41,4 +40,5 @@ public class CourseResponse {
     private List<SectionResponse> sections;
     private RatingStatistic ratings;
     private List<RatingResponse> ratingEntities;
+    private InstructorResponse instructorResponse;
 }

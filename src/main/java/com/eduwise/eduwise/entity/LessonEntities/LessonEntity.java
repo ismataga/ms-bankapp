@@ -38,4 +38,6 @@ public class LessonEntity {
     private Boolean isCompleted;
     private LessonType lessonType;
     private Integer sectionId;
+
+
 }

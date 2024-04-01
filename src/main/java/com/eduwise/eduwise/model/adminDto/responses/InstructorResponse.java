@@ -1,4 +1,15 @@
 package com.eduwise.eduwise.model.adminDto.responses;
 
-public record InstructorResponse(String name, String surname, String photoUrl ) {
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class InstructorResponse {
+    private String fullname;
+    private String instructorPhoto;
+
 }

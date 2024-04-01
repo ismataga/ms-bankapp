@@ -1,0 +1,10 @@
+server:
+  servlet:
+    context-path: /eduwise
+  port: 8083
+
+app:
+  registration:
+    base-path: "http://localhost:8083"
+  jwt:
+    secret: "test"

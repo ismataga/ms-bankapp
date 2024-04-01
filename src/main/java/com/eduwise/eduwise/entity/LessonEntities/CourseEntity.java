@@ -42,8 +42,6 @@ public class CourseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateAt;
     private Integer studentCount;
-    private String instructorName;
-    private String instructorPhoto;
     private Integer quizCount;
     private Integer articleCount;
     private BigInteger monthlyPrice;
