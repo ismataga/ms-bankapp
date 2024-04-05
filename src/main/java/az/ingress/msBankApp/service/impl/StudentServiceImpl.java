@@ -1,16 +1,21 @@
 package az.ingress.msBankApp.service.impl;
 
 import az.ingress.msBankApp.entity.Student;
+import az.ingress.msBankApp.model.SearchCriteria;
 import az.ingress.msBankApp.repository.StudentRepository;
 import az.ingress.msBankApp.service.StudentService;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-
+import az.ingress.msBankApp.spec.StudentSpecification;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +30,12 @@ public class StudentServiceImpl implements StudentService {
     public Student addStudent(Student student) {
         return studentRepository.save(student);
     }
-//CriteriaBuilder
-    @Override
-    public List<Student> getAllStudents(String name, String surname) {
+
+
+
+    //CriteriaBuilder
+
+    public List<Student> getAllStudent(String name, String surname) {
         Specification<Student> studentSpec = null;
 
         List<Predicate> predicates = new ArrayList<>();
@@ -39,6 +47,8 @@ public class StudentServiceImpl implements StudentService {
             if (surname != null) {
                 predicates.add(criteriaBuilder.equal(root.get("surname"), surname));
             }
+
+
             query.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
             return query.getRestriction();
         });
@@ -49,5 +59,23 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<Student> getStudents(String name, String surname, String age, String gender) {
         return studentRepository.getStudents(name, surname, age, gender);
+    }
+
+    @Override
+    public List<Student> findAllStudents(List<SearchCriteria> searchCriteriaList) {
+        StudentSpecification studentSpecification = new StudentSpecification();
+        searchCriteriaList.forEach(studentSpecification::addSearchCriteria);
+        return studentRepository.findAll(studentSpecification);
+    }
+
+    @Override
+    public Page<Student> getAllStudents(Pageable pageable) {
+        return studentRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Student> getAllStudentsPage(int pageSize , int pageNumber, String[] pageSort) {
+        Pageable pageable=  PageRequest.of( pageSize,pageNumber, Sort.by(pageSort[0]).descending() );
+        return studentRepository.findAll(pageable);
     }
 }
