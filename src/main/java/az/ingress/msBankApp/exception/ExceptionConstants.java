@@ -18,6 +18,7 @@ public enum ExceptionConstants {
 
     //user-service
     USER_NOT_FOUND("user not found with username: ", NOT_FOUND),
+    STUDENT_NOT_FOUND("student not found with username: ", NOT_FOUND),
 
 
     ;
