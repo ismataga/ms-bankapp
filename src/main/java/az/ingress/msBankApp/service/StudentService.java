@@ -18,4 +18,12 @@ public interface StudentService {
     Page getAllStudents(Pageable pageable);
 
     Page<Student> getAllStudentsPage(int pageSize, int pageNumber, String[] pageSort);
+
+    Student getStudentById(Long id);
+
+    Student updateStudent(Student student,Long id);
+
+    Student deleteStudentById(Long id);
+
+    Student getStudentByName(String name);
 }

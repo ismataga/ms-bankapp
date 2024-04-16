@@ -3,6 +3,9 @@ package az.ingress.msBankApp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -10,7 +13,7 @@ import lombok.*;
 @Data
 @ToString
 @Table(name = "students")
-public class Student {
+public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

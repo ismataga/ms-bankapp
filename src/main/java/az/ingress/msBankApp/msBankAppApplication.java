@@ -9,11 +9,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@EnableCaching
 public class msBankAppApplication implements CommandLineRunner {
     private final AccountRepository accountRepository;
     private final StudentRepository studentRepository;
@@ -24,40 +28,24 @@ public class msBankAppApplication implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-//        accountRepository.findAll().forEach(System.out::println);
-//        accountRepository.findByAccountNumber("iba123").forEach(System.out::println);
-//        accountRepository.findAccountBy().forEach(System.out::println);
 
-        Student qulu = Student.builder()
-                .name("Qulu")
-                .surname("Memmedov")
-                .age("20")
-                .gender("M")
-                .build();
+       Student student =Student.builder().name("Ali").age("25").build();
+       studentRepository.save(student);
 
-        Student memmmed = Student.builder()
-                .name("Memmed")
-                .surname("Memmedov")
-                .age("20")
-                .gender("M")
-                .build();
+//
+//        Student student1= studentRepository.findById(1L).get();
+//        System.out.println(student1);
 
-        Student esref = Student.builder()
-                .name("Esref")
-                .surname("Memmedov")
-                .age("20")
-                .gender("M")
-                .build();
-        List<Student> students = List.of(qulu, memmmed, esref);
-        for (Student student : students) {
-//            studentService.addStudent(student);
-        }
-        List<Student> allStudents = studentService.getAllStudents("Qulu", "Memedov");
-//        allStudents.forEach(System.out::println);
 
-        List<Student> students1 = studentService.getStudents(null, null, null, null);
-        students1.forEach(System.out::println);
+//        student1.setAge("27");
+//        studentRepository.save(student1);
+//        Thread.sleep(5000);
+
+
+
+
     }
 
 
