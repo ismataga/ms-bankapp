@@ -27,7 +27,6 @@ public class msBankAppApplication implements CommandLineRunner {
         SpringApplication.run(msBankAppApplication.class, args);
     }
 
-    @Override
     @Transactional
     public void run(String... args) throws Exception {
 
