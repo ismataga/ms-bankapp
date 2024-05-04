@@ -36,7 +36,6 @@ import static az.ingress.msBankApp.exception.ExceptionConstants.STUDENT_NOT_FOUN
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final CacheManager cacheManager;
-    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public Student addStudent(Student student) {
@@ -91,7 +90,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Cacheable(cacheNames = "student", key = "#id")
+//    @Cacheable(cacheNames = "student", key = "#id")
     public Student getStudentById(Long id) {
         return studentRepository.findById(id).orElseThrow(() -> new AppException(STUDENT_NOT_FOUND));
     }

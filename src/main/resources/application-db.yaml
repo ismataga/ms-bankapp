@@ -16,7 +16,7 @@ spring:
   liquibase:
     enabled: true
 
-  data:
-    redis:
-      host: localhost
-      post: 6379
+#  data:
+#    redis:
+#      host: localhost
+#      post: 6379

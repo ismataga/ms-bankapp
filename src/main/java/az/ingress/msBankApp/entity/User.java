@@ -10,6 +10,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.apache.commons.lang3.builder.HashCodeExclude;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +39,21 @@ public class User {
 //    @EqualsAndHashCode.Exclude
     private Address address;
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(Role::getPermission)
+                .flatMap(Collection::stream)
+                .map(Permission::getName)
+                .distinct()
+                .map(SimpleGrantedAuthority::new)
+                .toList();
+    }
+    private boolean accountNonExpired;
+    private boolean accountNonLocked;
+    private boolean credentialsNonExpired;
+    private boolean enabled;
+    private UUID uuid;
+    private int attemptCount;
 }
