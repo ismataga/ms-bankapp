@@ -4,3 +4,7 @@ spring:
       - db
       - common
 
+
+jwt:
+  secret-key: ${SECRET_KEY:ms22}
+

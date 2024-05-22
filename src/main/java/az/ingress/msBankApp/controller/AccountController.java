@@ -1,13 +1,19 @@
 package az.ingress.msBankApp.controller;
 
+import az.ingress.msBankApp.configration.JwtService;
+import az.ingress.msBankApp.entity.User;
 import az.ingress.msBankApp.model.AccountDto;
 import az.ingress.msBankApp.service.AccountService;
+import az.ingress.msBankApp.service.impl.UserDetailsServiceImpl;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.models.annotations.OpenAPI30;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.JstlUtils;
 
@@ -25,6 +31,9 @@ import java.security.Principal;
 public class AccountController {
     @Autowired
     private final AccountService accountService;
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/security")
     public String postPublic() {
@@ -34,8 +43,9 @@ public class AccountController {
 
     @GetMapping("/security/1")
     public String getPublic(Principal principal) {
-        log.info("User is: {}", principal);
-        return "get public method 1";
+        UserDetails userDetails = userDetailsService.loadUserByUsername("qulu");
+        String generateToken  = jwtService.generateToken((User) userDetails);
+        return "Token: " + generateToken;
 
     }
 
@@ -46,13 +56,13 @@ public class AccountController {
     }
 
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public AccountDto getAccount(@PathVariable Long id) {
         return accountService.getAccount(id);
 
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public AccountDto updateAccount(@PathVariable Long id,
                                     @RequestParam Double amount) {
         return accountService.updateAccount(id, amount);

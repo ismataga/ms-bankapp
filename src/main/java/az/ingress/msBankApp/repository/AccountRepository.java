@@ -34,7 +34,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAccountBy();
 
     @Override
-    @Lock(LockModeType.PESSIMISTIC_READ)
+//    @Lock(LockModeType.PESSIMISTIC_READ)
     Optional<Account> findById(Long id);
 
 }
